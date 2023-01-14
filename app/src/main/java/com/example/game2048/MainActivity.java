@@ -58,10 +58,10 @@ public class MainActivity extends AppCompatActivity implements JGameLib.GameEven
         boolean before = true;
         int cells = blockCount * blockCount;
         int n = 2;
-        if(gameLib.random(4) == 0)
+        if(gameLib.random(5) == 0)
             n = 4;
         while(before) {
-            int cellNum = gameLib.random(cells-1);
+            int cellNum = gameLib.random(cells);
             int y = cellNum / blockCount;
             int x = cellNum % blockCount;
             if(numCards[y][x].isTextEmpty()) {
