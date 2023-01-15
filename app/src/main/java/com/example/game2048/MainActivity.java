@@ -185,6 +185,9 @@ public class MainActivity extends AppCompatActivity implements JGameLib.GameEven
     @Override
     public void onGameCollision(JGameLib.Card card1, JGameLib.Card card2) {}
 
+    @Override
+    public void onGameTimer(int what) {}
+
     // Game Event end ====================================
 
 }
