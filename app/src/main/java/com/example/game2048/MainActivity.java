@@ -176,8 +176,7 @@ public class MainActivity extends AppCompatActivity implements JGameLib.GameEven
                     if(slidePushVtc(dir))
                         add2or4();
                 }
-                touchX = -1;
-                touchY = -1;
+                touchX = touchY = -1;
             }
         }
     }
