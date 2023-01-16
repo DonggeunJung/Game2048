@@ -16,8 +16,7 @@ public class MainActivity extends AppCompatActivity implements JGameLib.GameEven
     final int colorEmpty = Color.rgb(207,194,178);
     final int color2back = Color.rgb(227,217,207);
     final int color2text = Color.rgb(151,141,131);
-    float touchX = -1;
-    float touchY = -1;
+    float touchX = -1, touchY = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +34,8 @@ public class MainActivity extends AppCompatActivity implements JGameLib.GameEven
     }
 
     void initGame() {
-        gameLib.setScreenGrid(blockCount+edgeThick*2, blockCount+edgeThick*2);
         gameLib.listener(this);
-        Restart();
-    }
-
-    void Restart() {
-        gameLib.clearMemory();
+        gameLib.setScreenGrid(blockCount+edgeThick*2, blockCount+edgeThick*2);
         gameLib.addCardColor(edgeColor);
         for(int y=0; y < blockCount; y++) {
             for(int x=0; x < blockCount; x++) {
@@ -50,24 +44,33 @@ public class MainActivity extends AppCompatActivity implements JGameLib.GameEven
                 numCards[y][x].text("", color2text, 0.5);
             }
         }
+        Restart();
+    }
+
+    void Restart() {
+        for(int y=0; y < blockCount; y++) {
+            for(int x=0; x < blockCount; x++) {
+                numCards[y][x].backColor(colorEmpty);
+                numCards[y][x].text("", color2text, 0.5);
+            }
+        }
         add2or4();
         add2or4();
     }
 
     void add2or4() {
-        boolean before = true;
         int cells = blockCount * blockCount;
         int n = 2;
         if(gameLib.random(5) == 0)
             n = 4;
-        while(before) {
+        while(true) {
             int cellNum = gameLib.random(cells);
             int y = cellNum / blockCount;
             int x = cellNum % blockCount;
             if(numCards[y][x].isTextEmpty()) {
                 numCards[y][x].text(n);
                 numCards[y][x].backColor(color2back);
-                before = false;
+                return;
             }
         }
     }
