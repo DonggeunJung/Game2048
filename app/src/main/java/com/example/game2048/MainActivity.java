@@ -44,10 +44,10 @@ public class MainActivity extends AppCompatActivity implements JGameLib.GameEven
                 numCards[y][x].text("", color2text, 0.5);
             }
         }
-        Restart();
+        restart();
     }
 
-    void Restart() {
+    void restart() {
         for(int y=0; y < blockCount; y++) {
             for(int x=0; x < blockCount; x++) {
                 numCards[y][x].backColor(colorEmpty);
@@ -77,11 +77,11 @@ public class MainActivity extends AppCompatActivity implements JGameLib.GameEven
 
     boolean slidePushHrz(JGameLib.DirType dir) {
         boolean res = false;
-        int gapX=0, beginX=0;
+        int gapX=-1, beginX=0;
         if(dir == JGameLib.DirType.LEFT) {
             gapX=1;
         } else if(dir == JGameLib.DirType.RIGHT) {
-            gapX=-1; beginX=blockCount-1;
+            beginX=blockCount-1;
         }
         for(int y=0; y < blockCount; y ++) {
             if(slidePushLine(beginX, y, gapX, 0))
@@ -92,11 +92,11 @@ public class MainActivity extends AppCompatActivity implements JGameLib.GameEven
 
     boolean slidePushVtc(JGameLib.DirType dir) {
         boolean res = false;
-        int gapY=0, beginY=0;
+        int gapY=-1, beginY=0;
         if(dir == JGameLib.DirType.UP) {
             gapY=1;
         } else if(dir == JGameLib.DirType.DOWN) {
-            gapY=-1; beginY=blockCount-1;
+            beginY=blockCount-1;
         }
         for(int x=0; x < blockCount; x ++) {
             if(slidePushLine(x, beginY, 0, gapY))
@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements JGameLib.GameEven
     // User Event start ====================================
 
     public void onBtnRestart(View v) {
-        Restart();
+        restart();
     }
 
     // User Event end ====================================
