@@ -156,22 +156,22 @@ public class MainActivity extends AppCompatActivity implements JGameLib.GameEven
     public void onGameWorkEnded(JGameLib.Card card, JGameLib.WorkType workType) {}
 
     @Override
-    public void onGameTouchEvent(JGameLib.Card card, int action, float blockX, float blockY) {
+    public void onGameTouchEvent(JGameLib.Card card, int action, float x, float y) {
         switch(action) {
             case MotionEvent.ACTION_DOWN:
-                touchX = blockX;
-                touchY = blockY;
+                touchX = x;
+                touchY = y;
                 break;
             case MotionEvent.ACTION_UP : {
-                if(Math.abs(touchX - blockX) >= 1) {
+                if(Math.abs(touchX - x) >= 1) {
                     JGameLib.DirType dir = JGameLib.DirType.LEFT;
-                    if(touchX < blockX)
+                    if(touchX < x)
                         dir = JGameLib.DirType.RIGHT;
                     if(slidePushHrz(dir))
                         add2or4();
-                } else if(Math.abs(touchY - blockY) >= 1) {
+                } else if(Math.abs(touchY - y) >= 1) {
                     JGameLib.DirType dir = JGameLib.DirType.UP;
-                    if(touchY < blockY)
+                    if(touchY < y)
                         dir = JGameLib.DirType.DOWN;
                     if(slidePushVtc(dir))
                         add2or4();
@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements JGameLib.GameEven
     public void onGameCollision(JGameLib.Card card1, JGameLib.Card card2) {}
 
     @Override
-    public void onGameTimer(int what) {}
+    public void onGameTimer() {}
 
     // Game Event end ====================================
 
