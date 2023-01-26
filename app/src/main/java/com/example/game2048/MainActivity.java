@@ -7,10 +7,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements JGameLib.GameEvent {
+public class MainActivity extends AppCompatActivity implements Mosaic.GameEvent {
     int blockCount = 4;
-    JGameLib gameLib = null;
-    JGameLib.Card[][] numCards = new JGameLib.Card[blockCount][blockCount];
+    Mosaic mosaic = null;
+    Mosaic.Card[][] numCards = new Mosaic.Card[blockCount][blockCount];
     final float edgeThick = 0.1f;
     final int edgeColor = Color.rgb(192,175,157);
     final int colorEmpty = Color.rgb(207,194,178);
@@ -22,24 +22,24 @@ public class MainActivity extends AppCompatActivity implements JGameLib.GameEven
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        gameLib = findViewById(R.id.gameLib);
+        mosaic = findViewById(R.id.mosaic);
         initGame();
     }
 
     @Override
     protected void onDestroy() {
-        if(gameLib != null)
-            gameLib.clearMemory();
+        if(mosaic != null)
+            mosaic.clearMemory();
         super.onDestroy();
     }
 
     void initGame() {
-        gameLib.listener(this);
-        gameLib.setScreenGrid(blockCount+edgeThick*2, blockCount+edgeThick*2);
-        gameLib.addCardColor(edgeColor);
+        mosaic.listener(this);
+        mosaic.setScreenGrid(blockCount+edgeThick*2, blockCount+edgeThick*2);
+        mosaic.addCardColor(edgeColor);
         for(int y=0; y < blockCount; y++) {
             for(int x=0; x < blockCount; x++) {
-                numCards[y][x] = gameLib.addCardColor(colorEmpty,x+edgeThick,y+edgeThick,1,1);
+                numCards[y][x] = mosaic.addCardColor(colorEmpty,x+edgeThick,y+edgeThick,1,1);
                 numCards[y][x].edge(edgeColor, edgeThick);
                 numCards[y][x].text("", color2text, 0.5);
             }
@@ -61,10 +61,10 @@ public class MainActivity extends AppCompatActivity implements JGameLib.GameEven
     void add2or4() {
         int cells = blockCount * blockCount;
         int n = 2;
-        if(gameLib.random(5) == 0)
+        if(mosaic.random(5) == 0)
             n = 4;
         while(true) {
-            int cellNum = gameLib.random(cells);
+            int cellNum = mosaic.random(cells);
             int y = cellNum / blockCount;
             int x = cellNum % blockCount;
             if(numCards[y][x].isTextEmpty()) {
@@ -75,12 +75,12 @@ public class MainActivity extends AppCompatActivity implements JGameLib.GameEven
         }
     }
 
-    boolean slidePushHrz(JGameLib.DirType dir) {
+    boolean slidePushHrz(Mosaic.DirType dir) {
         boolean res = false;
         int gapX=-1, beginX=0;
-        if(dir == JGameLib.DirType.LEFT) {
+        if(dir == Mosaic.DirType.LEFT) {
             gapX=1;
-        } else if(dir == JGameLib.DirType.RIGHT) {
+        } else if(dir == Mosaic.DirType.RIGHT) {
             beginX=blockCount-1;
         }
         for(int y=0; y < blockCount; y ++) {
@@ -90,12 +90,12 @@ public class MainActivity extends AppCompatActivity implements JGameLib.GameEven
         return res;
     }
 
-    boolean slidePushVtc(JGameLib.DirType dir) {
+    boolean slidePushVtc(Mosaic.DirType dir) {
         boolean res = false;
         int gapY=-1, beginY=0;
-        if(dir == JGameLib.DirType.UP) {
+        if(dir == Mosaic.DirType.UP) {
             gapY=1;
-        } else if(dir == JGameLib.DirType.DOWN) {
+        } else if(dir == Mosaic.DirType.DOWN) {
             beginY=blockCount-1;
         }
         for(int x=0; x < blockCount; x ++) {
@@ -153,10 +153,10 @@ public class MainActivity extends AppCompatActivity implements JGameLib.GameEven
     // Game Event start ====================================
 
     @Override
-    public void onGameWorkEnded(JGameLib.Card card, JGameLib.WorkType workType) {}
+    public void onGameWorkEnded(Mosaic.Card card, Mosaic.WorkType workType) {}
 
     @Override
-    public void onGameTouchEvent(JGameLib.Card card, int action, float x, float y) {
+    public void onGameTouchEvent(Mosaic.Card card, int action, float x, float y) {
         switch(action) {
             case MotionEvent.ACTION_DOWN:
                 touchX = x;
@@ -164,15 +164,15 @@ public class MainActivity extends AppCompatActivity implements JGameLib.GameEven
                 break;
             case MotionEvent.ACTION_UP : {
                 if(Math.abs(touchX - x) >= 1) {
-                    JGameLib.DirType dir = JGameLib.DirType.LEFT;
+                    Mosaic.DirType dir = Mosaic.DirType.LEFT;
                     if(touchX < x)
-                        dir = JGameLib.DirType.RIGHT;
+                        dir = Mosaic.DirType.RIGHT;
                     if(slidePushHrz(dir))
                         add2or4();
                 } else if(Math.abs(touchY - y) >= 1) {
-                    JGameLib.DirType dir = JGameLib.DirType.UP;
+                    Mosaic.DirType dir = Mosaic.DirType.UP;
                     if(touchY < y)
-                        dir = JGameLib.DirType.DOWN;
+                        dir = Mosaic.DirType.DOWN;
                     if(slidePushVtc(dir))
                         add2or4();
                 }
@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements JGameLib.GameEven
     public void onGameSensor(int sensorType, float x, float y, float z) {}
 
     @Override
-    public void onGameCollision(JGameLib.Card card1, JGameLib.Card card2) {}
+    public void onGameCollision(Mosaic.Card card1, Mosaic.Card card2) {}
 
     @Override
     public void onGameTimer() {}
