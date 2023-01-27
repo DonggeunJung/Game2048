@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements Mosaic.GameEvent 
     public void onGameWorkEnded(Mosaic.Card card, Mosaic.WorkType workType) {}
 
     @Override
-    public void onGameTouchEvent(Mosaic.Card card, int action, float x, float y) {
+    public void onGameTouchEvent(Mosaic.Card card, int action, float x, float y, MotionEvent event) {
         switch(action) {
             case MotionEvent.ACTION_DOWN:
                 touchX = x;
